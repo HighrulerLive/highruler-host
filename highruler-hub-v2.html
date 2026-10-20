@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Highruler — Sim Racing</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f4f2;--panel:#fff;--ink:#14151a;--mute:#5d6070;--line:#dcdce0;--acc:#c79a00;--acc-ink:#111;--ok:#12a150;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0d10;--panel:#15171c;--ink:#eceef3;--mute:#8b90a0;--line:#262932;--acc:#ffd21f;--acc-ink:#0c0d10;--ok:#2fd27a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c0d10;--panel:#15171c;--ink:#eceef3;--mute:#8b90a0;--line:#262932;--acc:#ffd21f;--acc-ink:#0c0d10;--ok:#2fd27a;color-scheme:dark}
+html{scroll-padding-top:70px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "JetBrains Mono",ui-monospace,Menlo,monospace}
+h1,h2,h3,.brand{font-family:"Chakra Petch","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:0}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+nav{display:flex;align-items:center;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{font-size:1.6rem;font-weight:700}.brand b{color:var(--acc)}
+nav a.l{text-decoration:none;color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+nav a.l:hover{color:var(--ink)}
+.sp{flex:1}
+.btn{display:inline-block;background:var(--acc);color:var(--acc-ink);border:0;padding:10px 18px;font:600 .82rem "JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;cursor:pointer;border-radius:3px}
+.btn.o{background:none;color:var(--ink);border:1px solid var(--line)}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mute)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mute)}
+.live.on{color:var(--ok)}.live.on .dot{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 25%,transparent)}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:26px 0 12px}
+.hero h1{font-size:clamp(1.4rem,3.5vw,2.2rem)}.hero p{margin:4px 0 0;color:var(--mute);font-size:.85rem}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px}
+@media(max-width:900px){.stage{grid-template-columns:1fr}}
+.frame{background:#000;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.frame iframe{display:block;width:100%;border:0}
+#player{aspect-ratio:16/9}
+#chatf{height:100%;min-height:420px}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+section{padding:60px 0 0}
+h2.s{font-size:1.6rem;margin-bottom:6px}h2.s::before{content:"";display:inline-block;width:10px;height:1.1em;background:var(--acc);margin-right:10px;vertical-align:-.15em}
+.sub{color:var(--mute);margin:0 0 22px;font-size:.88rem}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:4px}
+.card h3{font-size:1.1rem;margin-bottom:6px}.card p{margin:0;color:var(--mute);font-size:.85rem}
+.sched{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line)}
+.sched td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:.9rem}
+.sched td:first-child{font-weight:600;width:110px;color:var(--acc)}.sched td:nth-child(2){color:var(--mute);width:150px}
+.wx{overflow-x:auto}
+.yt{aspect-ratio:16/9;width:100%}
+.shopc{display:flex;flex-direction:column;gap:10px;text-decoration:none}
+.shopc .price{font-family:"Chakra Petch",sans-serif;font-size:1.3rem;color:var(--acc)}
+.pat{border-color:var(--acc);display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.tier .price{font-family:"Chakra Petch",sans-serif;font-size:1.8rem;font-weight:700;margin:6px 0 10px}
+.tier ul{padding-left:18px;margin:0 0 16px;color:var(--mute);font-size:.85rem}
+.tier.hot{border-color:var(--acc)}
+footer{margin-top:70px;border-top:1px solid var(--line);padding:24px 0 40px;color:var(--mute);font-size:.8rem;display:flex;gap:16px;flex-wrap:wrap}
+#admin input,#admin textarea{width:100%;padding:9px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font:inherit;font-size:.82rem}
+#admin label{font-size:.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;display:block;margin:10px 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <span class="brand">HIGH<b>RULER</b></span>
+  <a class="l" href="#schedule">Schedule</a><a class="l" href="#videos">Videos</a><a class="l" href="#shop">Shop</a><a class="l" href="#patreon">Patreon</a>
+  <span class="sp"></span>
+  <span class="live" id="live"><span class="dot"></span><span id="livetxt">Offline</span></span>
+  <a class="btn" id="navPat" href="https://www.patreon.com/c/Highuler" target="_blank" rel="noopener">Patreon</a>
+</nav>
+
+<div class="hero"><div><h1 id="vt">Highruler</h1><p id="vn">Sim racing, gear reviews and league nights.</p></div></div>
+<div class="stage">
+  <div class="frame"><iframe id="player" title="Twitch stream" allowfullscreen></iframe></div>
+  <div class="frame"><iframe id="chatf" title="Twitch chat"></iframe></div>
+</div>
+<div class="links">
+  <a class="btn o" id="twLink" href="https://www.twitch.tv/Highruler" target="_blank" rel="noopener">Open on Twitch</a>
+  <a class="btn o" href="https://www.twitch.tv/popout/highruler/chat?popout=" target="_blank" rel="noopener">Pop-out chat</a>
+  <a class="btn o" href="https://www.youtube.com/@Highruler" target="_blank" rel="noopener">YouTube</a>
+  <a class="btn o" href="https://x.com/HighrulerLive" target="_blank" rel="noopener">X</a>
+  <a class="btn o" href="https://www.instagram.com/highrulerlive" target="_blank" rel="noopener">Instagram</a>
+  <a class="btn o" href="https://www.tiktok.com/@highrulerlive" target="_blank" rel="noopener">TikTok</a>
+</div>
+
+<section id="schedule">
+  <h2 class="s">Schedule</h2><p class="sub">Times shown in Eastern.</p>
+  <div class="wx"><table class="sched" id="schedBody"></table></div>
+</section>
+
+<section id="videos">
+  <h2 class="s">Latest videos</h2><p class="sub">Straight from the YouTube channel.</p>
+  <div id="ytBox"></div>
+</section>
+
+<section id="shop">
+  <h2 class="s">Shop</h2><p class="sub">Merch through Fourthwall. Checkout happens on the shop.</p>
+  <div class="grid" id="shopGrid"></div>
+  <p style="margin-top:16px"><a class="btn" id="shopBtn" href="https://highruler-xqs-shop.fourthwall.com/" target="_blank" rel="noopener">Visit the full shop</a></p>
+</section>
+
+<section id="patreon">
+  <h2 class="s">Patreon</h2><p class="sub">Patron perks live on Patreon. Tier names and prices are placeholders.</p>
+  <div class="card pat"><div><h3>Join the crew</h3><p>Early videos, setup files, league seats and more. Cancel any time.</p></div><a class="btn" id="patBtn" href="https://www.patreon.com/c/Highuler" target="_blank" rel="noopener">Become a patron</a></div>
+  <div class="grid">
+    <div class="card tier"><h3>Spotter</h3><div class="price">$3<small>/mo</small></div><ul><li>Patron badge</li><li>Early, ad-free videos</li><li>Patron-only posts</li></ul></div>
+    <div class="card tier hot"><h3>Crew Chief</h3><div class="price">$8<small>/mo</small></div><ul><li>Everything in Spotter</li><li>My setup files and tunes</li><li>Monthly Q&amp;A stream</li></ul></div>
+    <div class="card tier"><h3>Team Principal</h3><div class="price">$25<small>/mo</small></div><ul><li>Everything above</li><li>Seat in the private league</li><li>Name on the car</li></ul></div>
+  </div>
+</section>
+
+<section id="admin" hidden>
+  <h2 class="s">Creator controls</h2><p class="sub">Only you see this. Saving updates the page for everyone.</p>
+  <div class="card">
+    <label><input type="checkbox" id="aLive" style="width:auto"> Show “Live now”</label>
+    <label>Headline</label><input id="aTitle">
+    <label>Sub-line</label><input id="aNote">
+    <label>Twitch channel</label><input id="aTw" placeholder="highruler">
+    <label>YouTube channel ID (starts with UC)</label><input id="aYt" placeholder="UCxxxxxxxxxxxxxxxxxxxxxx">
+    <label>Patreon URL</label><input id="aPat">
+    <label>Fourthwall shop URL</label><input id="aShop">
+    <label>Featured products, one per line: Name | Price | Link</label><textarea id="aItems" rows="4"></textarea>
+    <label>Schedule, one per line: Day | Time | What</label><textarea id="aSched" rows="5"></textarea>
+    <p style="margin-top:12px"><button class="btn" id="aSave" type="button">Save</button></p>
+  </div>
+</section>
+
+<footer><span>© 2026 Highruler</span><span>Business: add your email</span><span>Privacy · Terms</span></footer>
+</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var D={live:false,title:'Highruler',note:'Sim racing, gear reviews and league nights.',tw:'highruler',yt:'UCeqScZAaN7WM7f00Pk3ZWqg',pat:'https://www.patreon.com/c/Highuler',shop:'https://highruler-xqs-shop.fourthwall.com/',
+    items:'',sched:'Monday | 7:00 PM - 10:30 PM | NASCAR League Night\nTuesday | 7:00 PM - 10:30 PM | GT3 Racing: LMU, ACC or PMR\nWednesday | 7:00 PM - 10:00 PM | Community Night!\nThursday | Time TBC | Wild Card!'};
+  var parent=location.hostname||'localhost';
+  function lines(t){return String(t||'').split('\n').map(function(l){return l.split('|').map(function(x){return x.trim();});}).filter(function(r){return r[0];});}
+  function safe(u){return /^https?:\/\//i.test(u)?u:'#';}
+  function render(c){
+    c=Object.assign({},D,c||{});
+    $('live').classList.toggle('on',!!c.live);$('livetxt').textContent=c.live?'Live now':'Offline';
+    $('vt').textContent=c.title;$('vn').textContent=c.note;
+    var tw=encodeURIComponent((c.tw||'highruler').replace(/[^\w]/g,''));
+    var pu='https://player.twitch.tv/?channel='+tw+'&parent='+parent+'&muted=true';
+    var cu='https://www.twitch.tv/embed/'+tw+'/chat?parent='+parent+'&darkpopout';
+    if($('player').getAttribute('src')!==pu)$('player').src=pu;
+    if($('chatf').getAttribute('src')!==cu)$('chatf').src=cu;
+    $('twLink').href='https://www.twitch.tv/'+tw;
+    ['navPat','patBtn'].forEach(function(i){$(i).href=safe(c.pat);});
+    $('shopBtn').href=safe(c.shop);
+    var sb=$('schedBody');sb.innerHTML='';
+    lines(c.sched).forEach(function(r){var tr=document.createElement('tr');[0,1,2].forEach(function(i){var td=document.createElement('td');td.textContent=r[i]||'';tr.appendChild(td);});sb.appendChild(tr);});
+    var g=$('shopGrid');g.innerHTML='';
+    var it=lines(c.items);
+    if(!it.length){var e=document.createElement('div');e.className='card';e.innerHTML='<h3>Merch</h3><p></p>';e.lastChild.textContent='Featured products show here once you add them in Creator controls.';g.appendChild(e);}
+    it.forEach(function(r){var a=document.createElement('a');a.className='card shopc';a.target='_blank';a.rel='noopener';a.href=safe(r[2]);
+      var h=document.createElement('h3');h.textContent=r[0];var p=document.createElement('span');p.className='price';p.textContent=r[1]||'';a.appendChild(h);a.appendChild(p);g.appendChild(a);});
+    var yb=$('ytBox');
+    if(c.yt&&/^UC[\w-]{20,}$/.test(c.yt)){var src='https://www.youtube-nocookie.com/embed/videoseries?list=UU'+c.yt.slice(2);
+      if(!yb.firstChild||yb.firstChild.getAttribute('src')!==src){yb.innerHTML='';var f=document.createElement('iframe');f.className='yt';f.src=src;f.title='YouTube uploads';f.allowFullscreen=true;f.style.border='0';yb.appendChild(f);}}
+    else{yb.innerHTML='';var d=document.createElement('div');d.className='card';d.innerHTML='<h3>Videos</h3><p></p><p style="margin-top:12px"><a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/@Highruler">Watch on YouTube</a></p>';d.children[1].textContent='Your latest uploads will play here once the YouTube channel ID is set in Creator controls.';yb.appendChild(d);}
+    return c;
+  }
+  var cur=render();
+  (async function(){
+    var db=null,user=null;
+    try{db=await claude.use('db');user=await claude.use('user');}catch(e){}
+    if(!db)return;
+    var ref=db.doc('site/config');
+    ref.onSnapshot(function(sn){cur=render(sn.exists?sn.data():{});fill();},function(){});
+    var mod=false;try{mod=!!user.canEdit();}catch(e){}
+    if(!mod)return;
+    $('admin').hidden=false;
+    function fill(){if(document.activeElement&&$('admin').contains(document.activeElement))return;
+      $('aLive').checked=!!cur.live;$('aTitle').value=cur.title;$('aNote').value=cur.note;$('aTw').value=cur.tw;$('aYt').value=cur.yt;$('aPat').value=cur.pat;$('aShop').value=cur.shop;$('aItems').value=cur.items;$('aSched').value=cur.sched;}
+    window.fill=fill;fill();
+    $('aSave').onclick=function(){ref.set({live:$('aLive').checked,title:$('aTitle').value.slice(0,120),note:$('aNote').value.slice(0,200),tw:$('aTw').value.trim().slice(0,40),yt:$('aYt').value.trim().slice(0,40),pat:$('aPat').value.trim().slice(0,200),shop:$('aShop').value.trim().slice(0,200),items:$('aItems').value.slice(0,2000),sched:$('aSched').value.slice(0,2000)});};
+  })();
+  function fill(){if(window.fill)window.fill();}
+})();
+</script>
+</body>
+</html>
